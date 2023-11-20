@@ -8,8 +8,7 @@ import java.util.Scanner;
 public class AppReservation {
     public static void main(String[] args) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Scanner sc = new Scanner(System.in);
-        try {
+        try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Room number: ");
             int room = sc.nextInt();
             System.out.print("Check In date: ");
@@ -18,7 +17,6 @@ public class AppReservation {
             System.out.print("Check Out date: ");
             Date checkout = sdf.parse(sc.next());
 
-            Date now = new Date();
             Reservation reserva = new Reservation(room, checkin, checkout);
             System.out.println(reserva);
 
@@ -30,18 +28,12 @@ public class AppReservation {
             System.out.print("Check Out date: ");
             checkout = sdf.parse(sc.next());
             reserva.updateDates(checkin, checkout);
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             System.out.println("Invalid Date Format!");
-        }
-        catch (ReservationException e) {
+        } catch (ReservationException e) {
             System.out.println("Error in Reservation: " + e.getMessage());
-        }
-        catch (RuntimeException e ){
+        } catch (RuntimeException e) {
             System.out.println("Unexpected Error!");
-        }
-        finally {
-            sc.close();
         }
     }
 }
