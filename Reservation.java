@@ -9,13 +9,18 @@ public class Reservation {
     private Date checkIn;
     private Date checkOut;
 
-    public Reservation() {
-    }
-
-    public Reservation(int roomNumber, Date checkin, Date checkout) {
+    Date now = new Date();
+    public Reservation(int roomNumber, Date checkin, Date checkout) throws ReservationException {
         this.roomNumber = roomNumber;
-        this.checkIn = checkin;
-        this.checkOut = checkout;
+
+        if (checkout.before(checkin)){
+            throw new ReservationException("The check-out date can't be earlier then check-in!");
+        } else if (checkin.before(now) || checkout.before(now)){
+            throw new ReservationException("Dates must be in the future!");
+        } else {
+            this.checkIn = checkin;
+            this.checkOut = checkout;
+        }
     }
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -41,18 +46,16 @@ public class Reservation {
         return (int) TimeUnit.DAYS.convert(difms, TimeUnit.MILLISECONDS);
     }
 
-    public String updateDates(Date checkin, Date checkout) {
-        Date now = new Date();
+    public void updateDates(Date checkin, Date checkout) throws ReservationException {
 
         //check if checkou date is after check in date
         if (checkout.before(checkin)) {
-            return "Checkout date can't be earlier than checkin date!";
+            throw new ReservationException("Checkout date can't be earlier than checkin date!");
         } else if (checkin.before(now) || checkout.before(now)) {
-            return "Dates must be in the future!";
+            throw new ReservationException("Dates must be in the future!");
         } else {
             this.checkIn = checkin;
             this.checkOut = checkout;
-            return null;
         }
     }
 
