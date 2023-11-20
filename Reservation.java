@@ -10,7 +10,7 @@ public class Reservation {
     private Date checkOut;
 
     Date now = new Date();
-    public Reservation(int roomNumber, Date checkin, Date checkout) throws ReservationException {
+    public Reservation(int roomNumber, Date checkin, Date checkout) {
         this.roomNumber = roomNumber;
 
         if (checkout.before(checkin)){
@@ -46,7 +46,7 @@ public class Reservation {
         return (int) TimeUnit.DAYS.convert(difms, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDates(Date checkin, Date checkout) throws ReservationException {
+    public void updateDates(Date checkin, Date checkout) {
 
         //check if checkou date is after check in date
         if (checkout.before(checkin)) {

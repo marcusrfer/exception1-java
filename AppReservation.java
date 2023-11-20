@@ -30,11 +30,17 @@ public class AppReservation {
             System.out.print("Check Out date: ");
             checkout = sdf.parse(sc.next());
             reserva.updateDates(checkin, checkout);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             System.out.println("Invalid Date Format!");
-        } catch (ReservationException e) {
+        }
+        catch (ReservationException e) {
             System.out.println("Error in Reservation: " + e.getMessage());
-        } finally {
+        }
+        catch (RuntimeException e ){
+            System.out.println("Unexpected Error!");
+        }
+        finally {
             sc.close();
         }
     }
