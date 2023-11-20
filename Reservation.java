@@ -36,21 +36,32 @@ public class Reservation {
         return checkOut;
     }
 
-    public int getDuration(){
+    public int getDuration() {
         long difms = checkOut.getTime() - checkIn.getTime();
         return (int) TimeUnit.DAYS.convert(difms, TimeUnit.MILLISECONDS);
     }
-    public void updateDates(Date checkin, Date checkout){
-        this.checkIn = checkin;
-        this.checkOut = checkout;
+
+    public String updateDates(Date checkin, Date checkout) {
+        Date now = new Date();
+
+        //check if checkou date is after check in date
+        if (checkout.before(checkin)) {
+            return "Checkout date can't be earlier than checkin date!";
+        } else if (checkin.before(now) || checkout.before(now)) {
+            return "Dates must be in the future!";
+        } else {
+            this.checkIn = checkin;
+            this.checkOut = checkout;
+            return null;
+        }
     }
 
-    @Override
-    public String toString() {
-        return "Reservation: " +
-                "Room: " + roomNumber +
-                ", CheckIn: " + sdf.format(checkIn) +
-                ", CheckOut: " + sdf.format(checkOut) +
-                ", "+getDuration() + " nights.";
+        @Override
+        public String toString () {
+            return "Reservation: " +
+                    "Room: " + roomNumber +
+                    ", CheckIn: " + sdf.format(checkIn) +
+                    ", CheckOut: " + sdf.format(checkOut) +
+                    ", " + getDuration() + " nights.";
+        }
     }
-}

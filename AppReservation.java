@@ -12,41 +12,35 @@ public class AppReservation {
         System.out.print("Room number: ");
         int room = sc.nextInt();
         System.out.print("Check In date: ");
-        Date chkin = sdf.parse(sc.next());
+        Date checkin = sdf.parse(sc.next());
         sc.nextLine();
         System.out.print("Check Out date: ");
-        Date chkout = sdf.parse(sc.next());
+        Date checkout = sdf.parse(sc.next());
 
         Date now = new Date();
 
-        //check if checkou date is after check in date
-        if (chkout.before(chkin)) {
-            System.out.println("Error Reservation: checkout date can't be earlier than checkin date!");
-        } else if (chkin.before(now) || chkout.before(now)) {
-            System.out.println("Error Reservation: Dates must be in the future!");
+        //check if checkout date is after check in date
+        if (checkout.before(checkin)) {
+            System.out.println("Error in Reservation: Checkout date can't be earlier than checkin date!");
+        } else if (checkin.before(now) || checkout.before(now)) {
+            System.out.println("Error in Reservation: Dates must be in the future!");
         } else {
-            Reservation reserva = new Reservation(room, chkin, chkout);
+            Reservation reserva = new Reservation(room, checkin, checkout);
             System.out.println(reserva);
-
             System.out.println();
             System.out.println("Enter date to update Dates");
             System.out.print("Check In date: ");
-            chkin = sdf.parse(sc.next());
+            checkin = sdf.parse(sc.next());
             sc.nextLine();
             System.out.print("Check Out date: ");
-            chkout = sdf.parse(sc.next());
-
-
-            if (chkout.before(chkin)) {
-                System.out.println("Error Reservation: checkout date can't be earlier than checkin date!");
-            } else if (chkin.before(now) || chkout.before(now)) {
-                System.out.println("Error Reservation: Dates must be in the future!");
-            } else {
-                reserva.updateDates(chkin, chkout);
+            checkout = sdf.parse(sc.next());
+            String error = reserva.updateDates(checkin, checkout);
+            if (error == null) {
                 System.out.println(reserva);
+            } else {
+                System.out.println("Error in Reservation: " + error);
             }
         }
         sc.close();
     }
-
 }
